@@ -28,7 +28,8 @@ public class Option {
     public static final int heart_fail_max_num= 3;      //s
 
     public static final boolean IsK8s_test = true;  //false
-    public static final int k8s_test_port = 6001;
-    public static final String k8s_test_host = "139.224.221.196";           // "18.191.92.76";   // "139.224.221.196";
+    public static final int k8s_test_port = 32001;      //6001;
+    public static final String k8s_test_host = "3.16.22.210";   //"139.224.221.196";           // "18.191.92.76";   // "139.224.221.196";
+
 
 }

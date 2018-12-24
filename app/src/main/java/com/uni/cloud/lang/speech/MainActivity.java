@@ -1157,6 +1157,18 @@ public class MainActivity extends AppCompatActivity implements MessageDialogFrag
             // but that resulted in system crashes...
             MediaPlayer mediaPlayer = new MediaPlayer();
 
+
+
+            //           MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.t2);
+            //         final MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.lovemelikeyoudo);
+            // Tried passing path directly, but kept getting
+            // "Prepare failed.: status=0x1"
+            // so using file descriptor instead
+            FileInputStream fis = new FileInputStream(tempMp3);
+            mediaPlayer.setDataSource(fis.getFD());
+
+//            mediaPlayer.prepare();
+//            mediaPlayer.start();
             mediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
                 @Override
                 public boolean onError(MediaPlayer mp, int what, int extra) {
@@ -1214,16 +1226,28 @@ public class MainActivity extends AppCompatActivity implements MessageDialogFrag
                 }
             });
 
-            //           MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.t2);
-            //         final MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.lovemelikeyoudo);
-            // Tried passing path directly, but kept getting
-            // "Prepare failed.: status=0x1"
-            // so using file descriptor instead
-            FileInputStream fis = new FileInputStream(tempMp3);
-            mediaPlayer.setDataSource(fis.getFD());
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    Log.d(TAG, "onCompletion mp="+mp+"isplaying="+mp.isPlaying());
+                    if (mp != null && !mp.isPlaying()) {
+                        Log.d(TAG, "onCompletion release...");
+                        mp.stop();
+                        mp.release();
+                        mp = null;                    }
+                }
+            });
 
-            mediaPlayer.prepare();
-            mediaPlayer.start();
+            mediaPlayer.prepareAsync();
+            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                 @Override
+                 public void onPrepared(MediaPlayer mp) {
+                     Log.d(TAG, "onPrepared");
+                                         mp.start();
+                                     }
+             });
+
+
 
 //                MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.t2);
 //                mediaPlayer.start();
