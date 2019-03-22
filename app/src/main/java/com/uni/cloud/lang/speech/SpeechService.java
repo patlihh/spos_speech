@@ -617,7 +617,6 @@ public class SpeechService extends Service {
                     keyStore.load(null, null);
                     keyStore.setCertificateEntry("ca-gubstech", server_ca);
 
-
                     SSLContext sslContext = SSLContext.getInstance("TLS");
 
                     TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory

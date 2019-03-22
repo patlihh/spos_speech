@@ -29,7 +29,7 @@ public class Option {
 
     public static final boolean IsK8s_test = true;  //false
     public static final int k8s_test_port = 32001;      //6001;
-    public static final String k8s_test_host = "3.16.22.210";   //"139.224.221.196";           // "18.191.92.76";   // "139.224.221.196";
+    public static final String k8s_test_host = "www.gubstech.com";               //"18.217.235.82";   //"139.224.221.196";           // "18.191.92.76";   // "139.224.221.196";
 
 
 }

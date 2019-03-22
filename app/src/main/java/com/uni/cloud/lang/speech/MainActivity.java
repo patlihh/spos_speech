@@ -20,27 +20,22 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ComponentName;
-
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
-
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
-
 import android.support.v4.app.ActivityCompat;
-
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.DisplayMetrics;
@@ -54,7 +49,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -65,24 +59,20 @@ import com.uni.cloud.lang.LangApplication;
 import com.uni.cloud.lang.R;
 import com.uni.cloud.lang.log.LogcatHelper;
 import com.uni.cloud.lang.log.Logger;
-
 import com.uni.cloud.lang.login.LoginActivity;
 import com.uni.cloud.lang.misc.FileUtil;
 import com.uni.cloud.lang.misc.LimitQueue;
 import com.uni.cloud.lang.misc.Option;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-
 import java.io.OutputStream;
-
 import java.util.ArrayList;
-
 import java.util.List;
 import java.util.Map;
-
 import java.util.concurrent.TimeUnit;
 
 import io.grpc.ManagedChannel;
@@ -177,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements MessageDialogFrag
     private Button mbut_client_speak;
     private Button mbut_server_speak;
 
-    private Boolean Is_speaking = false;
+    private static Boolean Is_speaking = false;
 
     private Handler TranstextViewHandler, TTStextViewHandler;
     private String tr_str;
@@ -313,7 +303,7 @@ public class MainActivity extends AppCompatActivity implements MessageDialogFrag
 
                 int c_pos = SourceSpinner.getSelectedItemPosition();
                 int s_pos = TargetSpinner.getSelectedItemPosition();
-                Log.d("test", "c_pos" + c_pos + ";s_pos=" + s_pos);
+                Log.d("test0", "c_pos" + c_pos + ";s_pos=" + s_pos+";motion ev="+event);
 
                 stt_source_lang = stt_ln[c_pos];
                 trans_source_lang = trans_ln[c_pos];
@@ -324,8 +314,8 @@ public class MainActivity extends AppCompatActivity implements MessageDialogFrag
                 tts_target_gender = tts_gender[s_pos];
 
                 if (v.getId() == R.id.but_speak_client) {
-                    if (event.getAction() == MotionEvent.ACTION_UP) {
-                        Log.d("test", "cansal button ---> cancel");
+                    if (event.getAction() == MotionEvent.ACTION_CANCEL) {
+                        Log.d("test0", "client button ---> up,Is_speaking="+Is_speaking);
                         if(Is_speaking) {
                             Is_speaking = false;
                             mVoiceRecorder.stoping();
@@ -333,7 +323,7 @@ public class MainActivity extends AppCompatActivity implements MessageDialogFrag
                         }
                     }
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                        Log.d("test", "cansal button ---> down");
+                        Log.d("test0", "client button ---> down");
                         if (trans_source_lang.equals(trans_target_lang)) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                             builder.setTitle("Confirm");
@@ -360,7 +350,7 @@ public class MainActivity extends AppCompatActivity implements MessageDialogFrag
 
                 int c_pos = SourceSpinner.getSelectedItemPosition();
                 int s_pos = TargetSpinner.getSelectedItemPosition();
-                Log.d("test", "c1_pos" + c_pos + ";s1_pos=" + s_pos);
+                Log.d("test0", "c1_pos" + c_pos + ";s1_pos=" + s_pos+";motion ev="+event);
 
                 stt_source_lang = stt_ln[s_pos];
                 trans_source_lang = trans_ln[s_pos];
@@ -371,8 +361,8 @@ public class MainActivity extends AppCompatActivity implements MessageDialogFrag
                 tts_target_gender = tts_gender[c_pos];
 
                 if (v.getId() == R.id.but_speak_server) {
-                    if (event.getAction() == MotionEvent.ACTION_UP) {
-                        Log.d("test", "cansal button ---> cancel");
+                    if (event.getAction() == MotionEvent.ACTION_CANCEL||event.getAction() == MotionEvent.ACTION_UP) {
+                        Log.d("test0", "server button ---> cancel or up,Is_speaking="+Is_speaking);
                         if(Is_speaking) {
                             Is_speaking = false;
                             mVoiceRecorder.stoping();
@@ -380,7 +370,7 @@ public class MainActivity extends AppCompatActivity implements MessageDialogFrag
                         }
                     }
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                        Log.d("test", "cansal button ---> down");
+                        Log.d("test0", "server button ---> down");
                         if (trans_source_lang.equals(trans_target_lang)) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                             builder.setTitle("Confirm");

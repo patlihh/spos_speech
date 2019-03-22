@@ -40,8 +40,8 @@ android {
 //        targetSdkVersion 25
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 1
-        versionName '1.2'
+        versionCode 0
+        versionName '0.07'
 //        jackOptions {
 //            enabled true
 //        }
